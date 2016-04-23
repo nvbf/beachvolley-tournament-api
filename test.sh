@@ -1,8 +1,7 @@
 #!/bin/sh
 
 
-
-NODE_ENV="test" ./node_modules/.bin/babel-node test.js &
+./node_modules/.bin/babel-node test.js &
 
 ## Grab PID of background process
 PPID=$!

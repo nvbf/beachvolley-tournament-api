@@ -27,9 +27,9 @@ export async function initDB() {
         description text,
         tournament_start timestamptz,
         registration_start timestamptz,
-        status text,
+        status text default '',
         allowed_teams integer,
-        teams_signed_up integer
+        teams_signed_up integer default 0
       )`);
     } else {
       console.log(`${tournamentTable} exists`);

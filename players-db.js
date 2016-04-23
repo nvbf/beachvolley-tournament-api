@@ -14,7 +14,6 @@ export async function createPlayer(name) {
 export async function players() {
   try{
     const players = await db.query(`Select * from ${playerTable}`);
-    console.log(players);
     return players;
   } catch(e) {
     console.log('ERROR: ', e);

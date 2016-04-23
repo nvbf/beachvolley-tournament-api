@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const debug = require('debug')('osvb:tournaments');
 
 import { tournament, tournaments, createTournament } from './tournaments-db';
 
@@ -21,11 +22,14 @@ app.get('/tournaments/:id', function (req, res) {
 
 app.post('/tournaments', function (req, res) {
   const params = JSON.parse(JSON.stringify(req.body));
-  const p = createTournament(...params);
+  debug('params', params);
+  const p = createTournament(params);
     p.then(result => {
+      debug(result);
       res.json(`{
         'status': 'ok',
-        'message': ${params.name} added as a tournament
+        'message': ${params.name} added as a tournament,
+        'id': ${result.id}
       }`);
     });
     p.catch(err => errorMessage(res, err));

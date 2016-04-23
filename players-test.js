@@ -1,6 +1,6 @@
 import 'babel-polyfill';
 const urlHost = `http://localhost:` + (process.env.PORT || 3000) ;
-const debug = require('debug')('osvb:test:players:test');
+const debug = require('debug')('osvb:test:players');
 import axios from 'axios';
 import should from 'should';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
