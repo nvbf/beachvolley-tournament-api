@@ -8,7 +8,6 @@ app.use(bodyParser.json()); // support json encoded bodies
 
 app.get('/players', function (req, res) {
     const p = players();
-    console.log('/players',  p);
     p.then(players => res.send(players));
 });
 

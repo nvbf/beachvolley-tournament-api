@@ -4,7 +4,6 @@ const debug = require('debug')('osvb:test:tournament:add-players');
 import axios from 'axios';
 import should from 'should';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
-import { mochaAsync } from './testHelpers';
 
 const tournamentObject = {
   name: 'Name of tournament',
@@ -26,33 +25,26 @@ const defaultValues = {
   teams_signed_up: 0
 }
 
-describe('Add Players to Tournament Tests', function() {
-  it('REST Requests ',
-    mochaAsync(async function() {
-      //before
-      const verifyTournament = await axios.get(`${urlHost}/tournaments`);
-      const tournamentId = verifyTournament.data[0].id;
-      const playersPost = await axios.post(`${urlHost}/players`, { name: 'testUser2' });
-      const players = await axios.get(`${urlHost}/players`);
-      debug('!!!!!!!!!!!', players.data);
-      const playerId1 = players.data[0].id;
-      const playerId2 = players.data[1].id;
-      //before end
-      debug('TRY POST', `${urlHost}/tournaments/${tournamentId}/teams/${playerId1}/${playerId2}`);
-      try {
-        const addTeamResultP = await axios.post(`${urlHost}/tournaments/${tournamentId}/teams/${playerId1}/${playerId2}`, {
-          "transaction_id" : ""
-        });
-        // addTeamResultP.then(aSpecifyTournament => aSpecifyTournament.status.should.be.exactly(200))
-        // addTeamResultP.catch(b => debug('ERROR!!!:::::', b));
+describe('Add Players to Tournament Tests',  () => {
+  it('REST Requests ', async () => {
+    //before
+    const verifyTournament = await axios.get(`${urlHost}/tournaments`);
+    const tournamentId = verifyTournament.data[0].id;
+    const playersPost = await axios.post(`${urlHost}/players`, { name: 'testUser2' });
+    const players = await axios.get(`${urlHost}/players`);
+    const playerId1 = players.data[0].id;
+    const playerId2 = players.data[1].id;
+    //before end
 
+    const tournamentTeamEndpoint = await axios.get(`${urlHost}/tournaments/${tournamentId}/teams/`);
+    tournamentTeamEndpoint.status.should.be.exactly(200);
 
-        debug('TRY GET', `${urlHost}/tournaments/${tournamentId}/teams}`);
-        const teams = await axios.get(`${urlHost}/tournaments/${tournamentId}/teams}`);
-        teams[0].shoud.be.eql([{"id": playerId2, "name": "testUser"}, {"id": playerId1, name: "testUser2"}])
-      } catch(e) {
-        throw e;
-      }
-    })
-  );
+    const addTeamResult = await axios.post(`${urlHost}/tournaments/${tournamentId}/teams/${playerId1}/${playerId2}`, {
+      "transaction_id" : ""
+    });
+    addTeamResult.status.should.be.exactly(200);
+
+    const teams = await axios.get(`${urlHost}/tournaments/${tournamentId}/teams`);
+    teams.data[0].should.be.eql([{"id": playerId2, "name": "testUser2"}, {"id": playerId1, name: "testUser"}])
+  });
 });

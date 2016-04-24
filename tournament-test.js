@@ -3,7 +3,6 @@ const urlHost = `http://localhost:` + (process.env.PORT || 3000) ;
 const debug = require('debug')('osvb:test:tournament');
 import axios from 'axios';
 import should from 'should';
-import { mochaAsync } from './testHelpers';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 const tournamentObject = {
@@ -26,9 +25,8 @@ const defaultValues = {
   teams_signed_up: 0
 }
 
-describe('Tournaments Tests', function() {
-  it('REST Requests ',
-    mochaAsync(async () => {
+describe('Tournaments Tests', () => {
+  it('REST Requests ', async () => {
       const firstTournament = await axios.get(`${urlHost}/tournaments`);
       firstTournament.status.should.be.exactly(200);
       firstTournament.data.should.be.instanceof(Array).and.have.lengthOf(0);
@@ -44,6 +42,5 @@ describe('Tournaments Tests', function() {
       const aSpecifyTournament = await axios.get(`${urlHost}/tournaments/${id}`);
       aSpecifyTournament.status.should.be.exactly(200);
       aSpecifyTournament.data.should.be.eql(Object.assign({}, tournamentObject, {id}, timeInZuluTime, defaultValues));
-    })
-  );
+    });
 });

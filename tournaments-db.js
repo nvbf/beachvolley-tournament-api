@@ -1,4 +1,6 @@
 export const tournamentTable = 'tournament_tournaments';
+export const tournamentTeamTable = 'tournament_tournaments_teams';
+import {playerTable} from './players-db';
 import {db} from './db-init';
 const debug = require('debug')('osvb:tournaments:db');
 
@@ -13,22 +15,24 @@ export async function createTournament(params) {
   }
 }
 
-export async function tournaments() {
-  try{
-    const tournaments = await db.query(`Select * from ${tournamentTable}`);
-    debug(tournaments);
-    return tournaments;
-  } catch(e) {
-    debug('ERROR:tournaments ', e);
-    return;
-  }
+export function tournaments() {
+  return db.query(`Select * from ${tournamentTable}`);
 }
 
-export async function tournament(id) {
-  try{
-    return await db.query("Select * from ${tournamentTable~} where id = ${id}", Object.assign({}, {id}, {tournamentTable}));
-  } catch(e) {
-    debug('ERROR:tournament/:id ', e);
-    return;
-  }
+export function tournament(id) {
+  return db.query("Select * from ${tournamentTable~} where id = ${id}", Object.assign({}, {id}, {tournamentTable}));
+}
+
+export function tournamentTeams(tournament_id) {
+  return db.query(`Select t.player_id, t.partner_id, p.name
+    from ${tournamentTeamTable} t, ${playerTable} p
+    where tournament_id = $1
+    and t.player_id = p.id`, tournament_id);
+}
+
+export async function createTournamentTeam(params) {
+  return Promise.all([
+    db.query("INSERT INTO ${tournamentTeamTable~} (tournament_id, transaction_id, player_id, partner_id) values(${tournament_id}, ${transaction_id}, ${playerId1}, ${playerId2})", Object.assign(params, {tournamentTeamTable})),
+    db.query("INSERT INTO ${tournamentTeamTable~} (tournament_id, transaction_id, player_id, partner_id) values(${tournament_id}, ${transaction_id}, ${playerId2}, ${playerId1})", Object.assign(params, {tournamentTeamTable}))
+  ]);
 }
