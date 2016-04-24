@@ -1,3 +1,8 @@
+# REST API
+
+If these docs are unclear see `tournaments-test.js` or `players-test.js` for
+actual code.
+
 # Players
 
 ## POST /players
@@ -6,10 +11,13 @@ Required field: `name`
 
 
 ## GET /players
+Expected Responds, a array of player-object
+```
 []
 [ <player-object>]
 [ <player-object>, <player-object>]
 ....
+```
 
 ## GET /player/:id
 a player object:
@@ -54,11 +62,13 @@ The response is a tournament object:
 }
 
 ## GET /tournmants/
+Expected Responds, a array of tournament-object
+```
 []
 [ <tournament-object> ]
 [ <tournament-object>, <tournament-object>]
 ...
-
+```
 
 
 # TODO:
