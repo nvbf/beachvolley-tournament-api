@@ -10,7 +10,7 @@ echo "Node.js app launching on PID: ${NODE_PID}.  Starting tests in 2 seconds."
 ## Give about 2 sec for the node process to completely startup
 sleep 2
 
-./node_modules/.bin/mocha --compilers js:babel-core/register -u tdd "*-test.js"
+./node_modules/.bin/mocha --timeout 15000 --compilers js:babel-core/register -u tdd tournament-test.js players-test.js tournament-add-players-test.js
 RETURN_VALUE=$?
 
 ## Kill background node process and childs

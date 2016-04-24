@@ -60,6 +60,7 @@ The response is a tournament object:
   "allowed_teams": 12,
   "teams_signed_up": 0
 }
+```
 
 ## GET /tournmants/
 Expected Responds, a array of tournament-object
@@ -68,6 +69,22 @@ Expected Responds, a array of tournament-object
 [ <tournament-object> ]
 [ <tournament-object>, <tournament-object>]
 ...
+```
+
+## GET /tournament/:id/teams
+
+```json
+[
+  [{ "id": 1, "name": "name of player 1"}, { "id": 2, "name": "name of player 2"}]
+  [{ "id": 3, "name": "name of player 3"}, { "id": 4, "name": "name of player 4"}]
+]
+```
+
+## POST /tournament/:id/teams/:id/:id
+```json
+{
+  "transaction_id": "braintree transaction id"
+}
 ```
 
 

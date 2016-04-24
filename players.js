@@ -20,9 +20,6 @@ app.get('/players/:id', function (req, res) {
 
 
 app.post('/players', function (req, res) {
-  console.log(req.body);
-  console.log(typeof req.body);
-  // console.log(req.body.name);
   const params = JSON.parse(JSON.stringify(req.body));
     if(!params.name) {
       return res.status(422).send({

@@ -3,19 +3,8 @@ const urlHost = `http://localhost:` + (process.env.PORT || 3000) ;
 const debug = require('debug')('osvb:test:players');
 import axios from 'axios';
 import should from 'should';
+import { mochaAsync } from './testHelpers';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
-
-const mochaAsync = (fn) => {
-    return async (done) => {
-        try {
-            await fn();
-            done();
-        } catch (err) {
-            done(err);
-        }
-    };
-};
-
 
 describe('Players Tests', function() {
   it('REST Requests ',
